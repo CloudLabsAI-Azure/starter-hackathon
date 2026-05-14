@@ -1,0 +1,18 @@
+# =========================================================
+# Bot Responses
+# =========================================================
+define bot reject jailbreak attempt
+  "I can only help with expense classification. I cannot process this request."
+
+define bot reject off topic
+  "I can only classify business expenses. Please describe an expense for me to categorise."
+
+define bot inform cannot help
+  "I'm not able to help with that. Please submit a business expense description."
+
+# =========================================================
+# Default Flow
+# =========================================================
+define flow
+  user ...
+  bot $answer

@@ -43,6 +43,12 @@ def _nim_client() -> AsyncOpenAI:
             ),
         )
 
+    # Accept either a base URL (.../v1) or a full completion URL
+    # (.../v1/chat/completions) and normalize to base URL.
+    endpoint = endpoint.strip()
+    if endpoint.endswith("/chat/completions"):
+        endpoint = endpoint[: -len("/chat/completions")]
+
     # Ensure the base_url ends without a trailing slash so the OpenAI client
     # appends /chat/completions correctly.
     return AsyncOpenAI(

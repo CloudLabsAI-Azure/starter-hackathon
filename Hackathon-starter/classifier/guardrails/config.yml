@@ -1,0 +1,29 @@
+colang_version: "1.0"
+
+models:
+  - type: main
+    engine: openai
+    model: nvidia/NVIDIA-Nemotron-Nano-9B-v2
+
+instructions:
+  - type: general
+    content: |
+      You are an expense classification assistant.
+
+      Your ONLY task is to classify expenses into:
+      - needs
+      - wants
+      - goals
+
+      Respond with ONLY one word.
+
+rails:
+  input:
+    flows:
+      - self check input
+
+  output:
+    flows:
+      - self check output
+
+max_llm_calls: 10
