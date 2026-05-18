@@ -196,3 +196,7 @@ async def analyze_endpoint(request: AnalyzeRequest):
             status_code=500,
             detail=f"Analysis error: {str(e)}"
       )
+
+@app.get("/", include_in_schema=False)
+async def root():
+    return {"service": "Zava MCP Server", "status": "ok"}
