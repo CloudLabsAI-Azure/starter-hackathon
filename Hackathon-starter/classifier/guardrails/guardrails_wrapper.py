@@ -63,6 +63,25 @@ async def classify(expense_description: str) -> str:
 
     print(f"\n========== GUARDRAILS DEBUG ==========")
     print(f"INPUT: {expense_description!r}")
+    print(f"[guardrails_wrapper] OPENAI_API_BASE: {os.environ.get('OPENAI_API_BASE')!r}")
+    print(f"[guardrails_wrapper] OPENAI_API_KEY length: {len(os.environ.get('OPENAI_API_KEY', ''))}")
+    # TEMP DEBUG — test raw connectivity from inside the container
+    import httpx
+    try:
+        test_url = os.environ["OPENAI_API_BASE"] + "/chat/completions"
+        r = httpx.post(
+            test_url,
+            headers={
+                "Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}",
+                "Content-Type": "application/json",
+            },
+            json={"messages": [{"role": "user", "content": "hi"}], "max_tokens": 5},
+            timeout=15.0,
+        )
+        print(f"[debug] HTTP {r.status_code} from Nemotron endpoint")
+        print(f"[debug] Body: {r.text[:300]}")
+    except Exception as e:
+        print(f"[debug] Connectivity failed: {type(e).__name__}: {e}")
 
     result = await _rails.generate_async(messages=messages)
 
